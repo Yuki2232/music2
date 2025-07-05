@@ -1,0 +1,10 @@
+select name, duration from track where duration = (select max(duration) from track);
+select name from track where duration >= 210;
+select name from collection where year_of_release >= '2018-01-01' and year_of_release < '2021-01-01';
+select name from artist where name not like '% %';
+select name from track where name like 'my %' or name like '% my %' or name like '% my' or name = 'my';
+select g.name, count(*) from artist_genre ag join genre g on ag.genre_id = g.id group by genre_id, g.name order by genre_id;
+select count(*) from track t join artist_album aa on t.album_id = aa.album_id join album a on aa.album_id = a.id where a.year_of_release >= '2019-01-01' and a.year_of_release < '2021-01-01';
+select a.id, a.name, avg(duration) from track t join album a on t.album_id = a.id group by a.id, a.name order by a.id;
+select a.id, a.name as artist_name from artist a where a.id not in (select distinct aa.artist_id from artist_album aa join album al on aa.album_id = al.id where extract(year from al.year_of_release) = 2020) order by a.id;
+select distinct c.name as collection_name from collection c join track_collection tc on c.id = tc.collection_id join track t on tc.track_id = t.id join album a on t.album_id = a.id join artist_album aa on a.id = aa.album_id join artist ar on aa.artist_id =ar.id where ar.name = '2pac' order by c.name;
